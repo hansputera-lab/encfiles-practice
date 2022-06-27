@@ -1,0 +1,16 @@
+{
+	"name": "simple-rsa-enc",
+	"version": "1.0.0",
+	"description": "encrypt files using nodejs",
+	"main": "index.js",
+	"scripts": {
+		"format": "prettier . --write"
+	},
+	"keywords": [],
+	"author": "Hanif Dwy Putra S <hanifdwyputrasembiring@gmail.com>",
+	"license": "ISC",
+	"type": "module",
+	"devDependencies": {
+		"prettier": "^2.7.1"
+	}
+}
