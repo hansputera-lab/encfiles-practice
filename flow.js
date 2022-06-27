@@ -36,20 +36,3 @@ export const restoreKey = (encrypted) => {
 	const privateKey = toKeyObject('private', getKey('private'));
 	return crypto.privateDecrypt(privateKey, encrypted);
 };
-
-// Symetric encryption..
-/**
- *
- * @param {ReadStream} stream File stream.
- * @param {string} sharedKey Shared secret key.
- * @return {{ stream: ReadStream, c: ReturnType<typeof createCipher> }} input file stream.
- */
-export const encryptStream = (stream, sharedKey) => {
-	const c = createCipher(sharedKey);
-	stream.pipe(c.cipher);
-
-	return {
-		stream,
-		c,
-	};
-};
