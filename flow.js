@@ -21,7 +21,7 @@ export const randomKey = () => crypto.randomUUID();
  * @return {Buffer}
  */
 export const encryptTheKey = (key) => {
-	const publicKey = toKeyObject(getKey('public'));
+	const publicKey = toKeyObject('public', getKey('public'));
 
 	return crypto.publicEncrypt(publicKey, key);
 };
@@ -33,7 +33,7 @@ export const encryptTheKey = (key) => {
  */
 export const restoreKey = (encrypted) => {
 	encrypted = Buffer.from(encrypted, 'hex');
-	const privateKey = toKeyObject(getKey('private'));
+	const privateKey = toKeyObject('private', getKey('private'));
 	return crypto.privateDecrypt(privateKey, encrypted);
 };
 
