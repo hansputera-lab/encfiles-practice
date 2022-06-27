@@ -18,10 +18,10 @@ export const randomKey = () => crypto.randomUUID();
 /**
  * Encrypt the key using public key.
  * @param {string} key The key want to encrypt.
- * @return {Buffer}
+ * @return {Promise<Buffer>}
  */
-export const encryptTheKey = (key) => {
-	const publicKey = toKeyObject('public', getKey('public'));
+export const encryptTheKey = async (key) => {
+	const publicKey = toKeyObject('public', await getKey('public'));
 
 	return crypto.publicEncrypt(publicKey, key);
 };

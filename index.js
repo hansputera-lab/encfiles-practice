@@ -1,5 +1,5 @@
-import { createReadStream } from 'node:fs';
-import { randomKey, encryptTheKey } from './flow.js';
+import { createReadStream, createWriteStream } from 'node:fs';
+import { randomKey, encryptTheKey, encryptStream } from './flow.js';
 import { getFiles, initFilesOut } from './util.js';
 
 // step 1: prepare variables, and files.
@@ -13,5 +13,18 @@ const keyEnc = encryptTheKey(key);
 const files = await getFiles();
 
 for (const file of files) {
-	const readStreamFile = createReadStream(file);
+    const { stream } = encryptStream(createReadStream(file, {
+        'autoClose': true,
+    }), key);
+
+    const writeFileStream = createWriteStream(file.replace('files', 'files.out'), {
+        'autoClose': true,
+    });
+
+    stream.pipe(writeFileStream);
+    stream.on('close', () => {
+        writeFileStream.close((err) => {
+            console.log(err);
+        });
+    });
 }
