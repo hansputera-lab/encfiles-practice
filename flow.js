@@ -2,8 +2,11 @@
  * Flow data.
  */
 
+/** @typedef {import('node:fs').ReadStream} ReadStream */
+
 import * as crypto from 'node:crypto';
 import { getKey, toKeyObject } from './rsa.js';
+import { createCipher, createDecipher } from './syme.js';
 
 /**
  * Random key (UUID)
@@ -32,4 +35,21 @@ export const restoreKey = (encrypted) => {
 	encrypted = Buffer.from(encrypted, 'hex');
 	const privateKey = toKeyObject(getKey('private'));
 	return crypto.privateDecrypt(privateKey, encrypted);
+};
+
+// Symetric encryption..
+/**
+ *
+ * @param {ReadStream} stream File stream.
+ * @param {string} sharedKey Shared secret key.
+ * @return {{ stream: ReadStream, c: ReturnType<typeof createCipher> }} input file stream.
+ */
+export const encryptStream = (stream, sharedKey) => {
+	const c = createCipher(sharedKey);
+	stream.pipe(c.cipher);
+
+	return {
+		stream,
+		c,
+	};
 };
