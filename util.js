@@ -4,5 +4,7 @@ import { cwd } from 'node:process';
 
 export async function getFiles() {
 	const files = await readdir(resolve(cwd(), 'files'));
-	return files.filter((file) => file.endsWith('.file'));
+	return files
+		.filter((file) => file.endsWith('.file'))
+		.map((fl) => resolve(cwd(), 'files', fl));
 }
