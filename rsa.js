@@ -1,3 +1,4 @@
+import * as crypto from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { cwd } from 'node:process';
@@ -15,4 +16,16 @@ export const getKey = async (type) => {
 	} catch {
 		return undefined;
 	}
+};
+
+/**
+ * Convert key contents to crypto.KeyObject
+ * @param {string} type Key type.
+ * @param {string} keyStr Key contents.
+ * @return {crypto.KeyObject | undefined}
+ */
+export const toKeyObject = (type, keyStr) => {
+	if (type === 'private') return crypto.createPrivateKey(keyStr);
+	else if (type === 'public') return crypto.createPublicKey(keyStr);
+	else return undefined;
 };
