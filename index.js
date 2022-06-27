@@ -2,6 +2,8 @@ import { createReadStream, createWriteStream } from 'node:fs';
 import { randomKey, encryptTheKey } from './flow.js';
 import { createCipher } from './syme.js';
 import { getFiles, initFilesOut } from './util.js';
+import zlib from 'node:zlib';
+import { Transform } from 'node:stream';
 
 // step 1: prepare variables, and files.
 initFilesOut(); // initialize 'files.out' directory.
@@ -26,7 +28,16 @@ for (const file of files) {
 	);
 	const c = createCipher(key);
 
-	stream.pipe(c.cipher).pipe(writeFileStream);
+	stream.pipe(new Transform({
+        'transform': (chunk, enc, cb) => {
+            chunk = Buffer.from(chunk, enc);
+            chunk = zlib.deflateRawSync(chunk, {
+                level: zlib.constants.Z_BEST_SPEED,
+            });
+
+            cb(null, chunk);
+        }
+    })).pipe(c.cipher).pipe(writeFileStream);
 
 	stream.on('finish', () => {
 		writeFileStream.close((err) => {
