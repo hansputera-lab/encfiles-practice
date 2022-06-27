@@ -17,4 +17,6 @@ export const randomKey = () => crypto.randomUUID();
  */
 export const encryptTheKey = (key) => {
     const publicKey = toKeyObject(getKey('public'));
+
+    return crypto.publicEncrypt(publicKey, key);
 };
