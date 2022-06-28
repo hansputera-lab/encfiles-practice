@@ -29,10 +29,10 @@ export const encryptTheKey = async (key) => {
 /**
  * Restore the encrypted key.
  * @param {string} encrypted Encrypted key by hex.
- * @return {Buffer}
+ * @return {Promise<Buffer>}
  */
-export const restoreKey = (encrypted) => {
+export const restoreKey = async (encrypted) => {
 	encrypted = Buffer.from(encrypted, 'hex');
-	const privateKey = toKeyObject('private', getKey('private'));
+	const privateKey = toKeyObject('private', await getKey('private'));
 	return crypto.privateDecrypt(privateKey, encrypted);
 };
