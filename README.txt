@@ -1,0 +1,1 @@
+I just want learn how to encrypt (large|small) files using NodeJS.
