@@ -2,6 +2,7 @@ import * as crypto from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { cwd } from 'node:process';
+import { secretKey } from './env.js';
 
 /**
  * Get private key contents.
@@ -25,7 +26,11 @@ export const getKey = async (type) => {
  * @return {crypto.KeyObject | undefined}
  */
 export const toKeyObject = (type, keyStr) => {
-	if (type === 'private') return crypto.createPrivateKey(keyStr);
+	if (type === 'private')
+		return crypto.createPrivateKey({
+			'key': keyStr,
+			'passphrase': secretKey,
+		});
 	else if (type === 'public') return crypto.createPublicKey(keyStr);
 	else return undefined;
 };
