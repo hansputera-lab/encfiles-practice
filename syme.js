@@ -11,7 +11,6 @@ import * as crypto from 'node:crypto';
  */
 export const createCipher = (key) => {
 	const iv = crypto.randomBytes(16);
-	key = crypto.scryptSync(key, crypto.randomBytes(32), 32);
 
 	const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
 
