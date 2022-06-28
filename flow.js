@@ -11,9 +11,8 @@ import { getKey, toKeyObject } from './rsa.js';
  * Random key (UUID)
  * @return {Buffer}
  */
-export const randomKey = () => crypto.scryptSync(
-	crypto.randomUUID(), crypto.randomBytes(16), 32
-);
+export const randomKey = () =>
+	crypto.scryptSync(crypto.randomUUID(), crypto.randomBytes(16), 32);
 
 // Asymetric..
 /**
