@@ -6,13 +6,14 @@
 
 import * as crypto from 'node:crypto';
 import { getKey, toKeyObject } from './rsa.js';
-import { createCipher, createDecipher } from './syme.js';
 
 /**
  * Random key (UUID)
- * @return {string}
+ * @return {Buffer}
  */
-export const randomKey = () => crypto.randomUUID();
+export const randomKey = () => crypto.scryptSync(
+	crypto.randomUUID(), crypto.randomBytes(16), 32
+);
 
 // Asymetric..
 /**
