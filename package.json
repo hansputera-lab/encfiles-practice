@@ -12,5 +12,8 @@
 	"type": "module",
 	"devDependencies": {
 		"prettier": "^2.7.1"
+	},
+	"engines": {
+		"node": ">=14.x"
 	}
 }
